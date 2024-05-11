@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "927022828051",
+    "project_id": "fight-5e03d",
+    "storage_bucket": "fight-5e03d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927022828051:android:c167d590ea9072e32e0de6",
+        "android_client_info": {
+          "package_name": "com.example.fight_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2-aMpJDlynRw9UKS9Bt2qxSYAobA-Cx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927022828051:android:352cc80bd036a9fc2e0de6",
+        "android_client_info": {
+          "package_name": "com.example.fight_app2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2-aMpJDlynRw9UKS9Bt2qxSYAobA-Cx8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
