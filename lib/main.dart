@@ -5,12 +5,15 @@ import 'package:fight_app2/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp( MyApp());
+  runApp( 
+     MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -23,9 +26,10 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 class FightApp extends StatefulWidget {
-  FightApp({super.key});
+  const FightApp({super.key});
+
+
 
   @override
   State<FightApp> createState() => _FightAppState();
@@ -35,8 +39,8 @@ class _FightAppState extends State<FightApp> {
   int _currentIndex = 0;
   final _pageWidgets = [
     HomePage(),
-    EditPage(),
-    AlbumPage(),
+    const EditPage(),
+    const AlbumPage(),
   ];
   
 
@@ -46,7 +50,7 @@ class _FightAppState extends State<FightApp> {
     return Scaffold(
       body:  _pageWidgets.elementAt(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.add_box), label: 'new'),
           BottomNavigationBarItem(icon: Icon(Icons.photo_album), label: 'Album'),
@@ -65,4 +69,5 @@ class _FightAppState extends State<FightApp> {
     });
   }
 }
+
 

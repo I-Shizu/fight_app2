@@ -99,7 +99,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   ),
                 );
               }
-              return Center(child: CircularProgressIndicator(),);
+              return const Center(child: CircularProgressIndicator(),);
             }
           ),
         ],

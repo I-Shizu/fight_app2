@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:fight_app/Page/edit_page.dart';
 import 'package:fight_app2/post.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -50,7 +49,7 @@ class _AlbumPageState extends State<AlbumPage> {
       ),*/
 
       body: _isLoading 
-        ? Center(
+        ? const Center(
             child: CircularProgressIndicator(),
           )
         : ListView.builder(

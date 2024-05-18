@@ -26,7 +26,7 @@ class _EditPageState extends State<EditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('今日頑張ったこと'),
+        title: const Text('今日頑張ったこと'),
         //backgroundColor: Colors.blue,
       ),
       body: Padding(
@@ -36,18 +36,18 @@ class _EditPageState extends State<EditPage> {
           children: [
             TextField(
               controller: _titleController,
-              decoration: InputDecoration(labelText: 'タイトル'),
+              decoration: const InputDecoration(labelText: 'タイトル'),
             ),
             TextField(
               controller: _textController,
-              decoration: InputDecoration(labelText: 'テキスト'),
+              decoration: const InputDecoration(labelText: 'テキスト'),
             ),
             ElevatedButton(
               onPressed: ()  async{
                // 画像のアップロードを行う前に、画像が既に選択されているかを確認
                 if (_imageUrl != null) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('エラー：既に画像が選択されています'),
                       duration: Duration(seconds: 3),
                     )
@@ -57,7 +57,7 @@ class _EditPageState extends State<EditPage> {
                 // 画像の選択とアップロードを行う
                 await upload();
               },
-              child: Text('画像をアップロード'),
+              child: const Text('画像をアップロード'),
             ),
             if(_imageUrl != null)
               Image.network(_imageUrl!),
@@ -66,17 +66,17 @@ class _EditPageState extends State<EditPage> {
                 if (_textController.text.isNotEmpty && _titleController.text.isNotEmpty && _imageUrl != null) {
                   // 画像のURLが取得されているかを確認
                   await _addToFirebase();
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyApp()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyApp()));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('エラー：テキストとタイトルを入力し、画像をアップロードしてください'),
                       duration: Duration(seconds: 3),
                     )
                   );
                 }
               },
-              child: Text('保存'),
+              child: const Text('保存'),
             ),
           ],
         ),

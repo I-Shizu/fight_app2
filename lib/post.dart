@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Post {
   final String title;
   final String text;
-  //final String image;
   final Timestamp? date;
   final String? imageUrl;
 
