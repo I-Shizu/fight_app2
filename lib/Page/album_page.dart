@@ -26,28 +26,6 @@ class _AlbumPageState extends State<AlbumPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      /*appBar: AppBar(
-        backgroundColor: Colors.blue,
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(0),//ここの調節をどうにかする
-              child: Text('アルバム'),
-            ),
-            /*InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => SearchPage(posts: [],)),
-                );
-              },
-              child: Icon(Icons.search),
-            ),*/
-          ],
-        ),
-      ),*/
-
       body: _isLoading 
         ? const Center(
             child: CircularProgressIndicator(),
@@ -57,31 +35,18 @@ class _AlbumPageState extends State<AlbumPage> {
             itemBuilder:(context, index) {
               return Card(
                 child: ListTile(
-                  title: Text(posts[index].title),
+                  //title: Text(posts[index].title),
                   subtitle: Column(
                     children: [
                       posts[index].imageUrl != null ? Image.network(posts[index].imageUrl!) : Container(),
-                      Text(posts[index].text),
-                      Text(posts[index].date != null ?DateFormat('yyyy-MM-dd HH:mm:ss').format(posts[index].date!.toDate()) : '日付はありません'),
+                      //Text(posts[index].text),
+                      Text(posts[index].date != null ?DateFormat('yyyy-MM-dd').format(posts[index].date!.toDate()) : '日付はありません'),
                     ],
                   ),
                 ),
               );
             },
           ),
-      
-      /*floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => EditPage(),
-            ),
-          ).then((_) {
-            _fetchFirebaseData();
-          });
-        },
-        child: Icon(Icons.add),
-      ),*/
     );
   }
 

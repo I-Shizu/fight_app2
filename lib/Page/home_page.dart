@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
           children: [
             Padding(
               padding: EdgeInsets.all(8),//ここの調節をどうにかする
-              child: Text('頑張る日記'),
+              //child: Text('頑張る日記'),
             ),
           ],
         ),

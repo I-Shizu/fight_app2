@@ -1,9 +1,10 @@
 import 'package:fight_app2/Page/album_page.dart';
-import 'package:fight_app2/Page/edit_page.dart';
+import 'package:fight_app2/Page/new_post_page.dart';
 import 'package:fight_app2/Page/home_page.dart';
 import 'package:fight_app2/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 void main() async {
@@ -22,14 +23,17 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        textTheme: GoogleFonts.hachiMaruPopTextTheme(
+          Theme.of(context).textTheme,
+        ),
+      ),
       home: FightApp(),
     );
   }
 }
 class FightApp extends StatefulWidget {
   const FightApp({super.key});
-
-
 
   @override
   State<FightApp> createState() => _FightAppState();
@@ -39,7 +43,7 @@ class _FightAppState extends State<FightApp> {
   int _currentIndex = 0;
   final _pageWidgets = [
     HomePage(),
-    const EditPage(),
+    const NewPostPage(),
     const AlbumPage(),
   ];
   

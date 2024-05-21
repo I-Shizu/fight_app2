@@ -84,7 +84,6 @@ class _CalendarPageState extends State<CalendarPage> {
                                 },
                                 icon: const Icon(Icons.delete),
                               ),
-                              title: Text(document['title']),
                               subtitle:
                                   Column(
                                     children: [
