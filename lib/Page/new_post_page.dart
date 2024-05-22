@@ -54,7 +54,7 @@ class _NewPostPageState extends State<NewPostPage> {
                       if (_imageUrl != null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
-                            content: Text('エラー：既に画像が選択されています'),
+                            content: Text('エラー：もうがぞうあるよ'),
                             duration: Duration(seconds: 3),
                           )
                         );
@@ -63,17 +63,7 @@ class _NewPostPageState extends State<NewPostPage> {
                         await upload();
                       }
                     },
-                    child: Container(
-                      width: double.infinity,
-                      height: 230,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Center(
-                        child: showImage(),
-                      ),
-                    ),
+                    child: showImage(),
                   ),
                 ),
                 Container(//テキストの入力
@@ -110,7 +100,7 @@ class _NewPostPageState extends State<NewPostPage> {
                         },
                       );
                     },
-                    child: Container(
+                    child: Container(//入力されたテキストを表示
                       width: double.infinity,
                       height: 230,
                       decoration: BoxDecoration(
@@ -143,7 +133,7 @@ class _NewPostPageState extends State<NewPostPage> {
                   );
                 }
               },
-              child: const Text('保存'),
+              child: const Text('ほぞん'),
             ),
           ],
         ),
@@ -189,9 +179,30 @@ class _NewPostPageState extends State<NewPostPage> {
 
   Widget showImage() {
     if(_imageUrl != null){
-      return Image.network(_imageUrl!);
+      return Container(
+        width: double.infinity,
+        height: 230,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black),
+          borderRadius: BorderRadius.circular(13),
+        ),
+        child: FittedBox(
+          fit: BoxFit.fill,
+          child: Image.network(_imageUrl!)
+        ),
+      );
     } else {
-      return Text('画像をアップロード');
+      return Container(
+        width: double.infinity,
+        height: 230,
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Center(
+          child: Text('あっぷろーど')
+        ),
+      );
     }
   }
 }

@@ -55,9 +55,9 @@ class _FightAppState extends State<FightApp> {
       body:  _pageWidgets.elementAt(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.add_box), label: 'new'),
-          BottomNavigationBarItem(icon: Icon(Icons.photo_album), label: 'Album'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'ほーむ'),
+          BottomNavigationBarItem(icon: Icon(Icons.add_box), label: 'にゅー'),
+          BottomNavigationBarItem(icon: Icon(Icons.photo_album), label: 'あるばむ'),
         ],
         currentIndex: _currentIndex,
         fixedColor: Colors.blueAccent,
