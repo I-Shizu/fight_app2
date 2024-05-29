@@ -1,4 +1,5 @@
 import 'package:fight_app2/Page/album_page.dart';
+import 'package:fight_app2/Page/login_page.dart';
 import 'package:fight_app2/Page/new_post_page.dart';
 import 'package:fight_app2/Page/home_page.dart';
 import 'package:fight_app2/firebase_options.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: FightApp(),
+      home: LoginPage(),
     );
   }
 }

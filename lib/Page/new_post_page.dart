@@ -107,10 +107,8 @@ class _NewPostPageState extends State<NewPostPage> {
                         border: Border.all(color: Colors.black),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Center(
-                        child: Tategaki(
-                          text: _textController.text,
-                        ),
+                      child: Tategaki(
+                        text: _textController.text,
                       ),
                     ),
                   ),

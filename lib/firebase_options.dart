@@ -52,6 +52,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '927022828051',
     projectId: 'fight-5e03d',
     storageBucket: 'fight-5e03d.appspot.com',
+    iosClientId: '927022828051-an362hi1l69v25h54tpal2gugrb6md8q.apps.googleusercontent.com',
     iosBundleId: 'com.example.fightApp2',
   );
 
@@ -61,6 +62,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '927022828051',
     projectId: 'fight-5e03d',
     storageBucket: 'fight-5e03d.appspot.com',
+    iosClientId: '927022828051-an362hi1l69v25h54tpal2gugrb6md8q.apps.googleusercontent.com',
     iosBundleId: 'com.example.fightApp2',
   );
 
@@ -73,4 +75,5 @@ class DefaultFirebaseOptions {
     storageBucket: 'fight-5e03d.appspot.com',
     measurementId: 'G-VHZL8MP6T2',
   );
+
 }
