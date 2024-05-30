@@ -6,7 +6,7 @@ class Tategaki extends StatelessWidget {
   final TextStyle? style;
   final double space;
 
-  Tategaki({
+  const Tategaki({
     Key? key,
     required this.text,
     this.style,
@@ -33,7 +33,7 @@ class Tategaki extends StatelessWidget {
     );
   }*/
 
-@override
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {

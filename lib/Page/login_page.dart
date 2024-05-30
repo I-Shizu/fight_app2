@@ -29,23 +29,21 @@ class _LoginPageState extends State<LoginPage> {
         final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
         final User? user = userCredential.user;//ユーザー情報をuserに入れる
         if(context.mounted){
-          print('ログインに成功しました');
           Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (context) {
-                return TopPage();
+                return const TopPage();
               }
             ),
             (route) => false,
           );
-        };
+        }
         if(user != null){
           await _addUserToFirestore(user);
         }
         return user;
       } catch (e) {
         if(e is PlatformException && e.code == 'sign_in_canceled'){
-          print('ログインをキャンセルしました');
         } else {
           throw e.toString();
         }
@@ -61,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
           onPressed: () async{
             signInWithGoogle(context);
           }, 
-          child: Text('Sign In with Google'),
+          child: const Text('Sign In with Google'),
         ),
       ),
     );

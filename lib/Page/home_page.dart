@@ -2,6 +2,8 @@ import 'package:fight_app2/calendar.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +18,7 @@ class HomePage extends StatelessWidget {
           ],
         ),
       ),
+      // ignore: prefer_const_constructors
       body: CalendarPage(),//columnするとエラーになる
     );
   }

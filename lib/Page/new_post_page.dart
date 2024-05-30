@@ -27,18 +27,7 @@ class _NewPostPageState extends State<NewPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        /*title: Text('New Post'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => MyApp())
-              );
-            },
-          )
-        ],*/
+
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -48,11 +37,11 @@ class _NewPostPageState extends State<NewPostPage> {
             Text(//今日の日付
               formatter.format(_postTime),
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 20,
               ),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Column(
               children: [
                 Container(//画像のアップロード
@@ -93,11 +82,11 @@ class _NewPostPageState extends State<NewPostPage> {
                         context: context, 
                         builder: (context) {
                           return AlertDialog(
-                            title: Text('がんばったこと'),
+                            title: const Text('がんばったこと'),
                             content: TextField(
                               controller: _textController,
                               maxLines: 3,
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
                               ),
                             ),
@@ -107,7 +96,7 @@ class _NewPostPageState extends State<NewPostPage> {
                                   setState(() {});
                                   Navigator.of(context).pop();
                                 }, 
-                                child: Text('おけ'),
+                                child: const Text('おけ'),
                               ),
                             ],
                           );
@@ -129,13 +118,14 @@ class _NewPostPageState extends State<NewPostPage> {
                 ),
               ],
             ),
-            SizedBox(height: 20,),
+            const SizedBox(height: 20,),
             ElevatedButton(//保存ボタン
               onPressed: () async {
                 if (_textController.text.isNotEmpty && _imageUrl != null) {
                   // 画像のURLが取得されているかを確認
                   await _addToFirebase();
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TopPage()));
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const TopPage()));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
@@ -166,12 +156,11 @@ class _NewPostPageState extends State<NewPostPage> {
       try {
         final TaskSnapshot uploadTask = await storage.ref(imageName).putFile(imageFile);
         final String imageUrl = await uploadTask.ref.getDownloadURL();
-        print('Uploaded image URL: $imageUrl');
         setState(() {
           _imageUrl = imageUrl;
         });
       } catch (e) {
-        print('Error uploading image: $e'); 
+        return null;
       }
     }
     return;
@@ -215,7 +204,7 @@ class _NewPostPageState extends State<NewPostPage> {
           border: Border.all(color: Colors.black),
           borderRadius: BorderRadius.circular(12),
         ),
-        child: Center(
+        child: const Center(
           child: Text('あっぷろーど')
         ),
       );

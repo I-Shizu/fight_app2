@@ -11,7 +11,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp( 
-     MyApp(),
+     const MyApp(),
   );
 }
 
@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: LoginPage(),
+      home: const LoginPage(),
     );
   }
 }
