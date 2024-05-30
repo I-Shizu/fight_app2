@@ -5,6 +5,7 @@ import 'package:fight_app2/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
 
@@ -25,7 +26,20 @@ class _NewPostPageState extends State<NewPostPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text('New Post'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => MyApp())
+              );
+            },
+          )
+        ],
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -163,16 +177,20 @@ class _NewPostPageState extends State<NewPostPage> {
     return;
   }
 
-  Future<void> _addToFirebase() async {
-    final db = FirebaseFirestore.instance;
+  Future<void> _addToFirebase() async {//ログインしてるユーザー情報を取得して、IDを作る
+    final User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final db = FirebaseFirestore.instance;
 
-    final post = <String, dynamic>{
-      "text" : _textController.text,
-      "date" : Timestamp.fromDate(_postTime),
-      "imageUrl" : _imageUrl,
-    };
+      final post = <String, dynamic>{
+        "uid": user.uid,
+        "text": _textController.text,
+        "date": Timestamp.fromDate(_postTime),
+        "imageUrl": _imageUrl,
+      };
       
-    await db.collection('posts').add(post);
+      await db.collection('posts').add(post);
+    }
   }
 
   Widget showImage() {
