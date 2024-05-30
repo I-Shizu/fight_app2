@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fight_app2/Page/top_page.dart';
 import 'package:fight_app2/Utils/tategaki.dart';
-import 'package:fight_app2/main.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,7 +27,7 @@ class _NewPostPageState extends State<NewPostPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('New Post'),
+        /*title: Text('New Post'),
         actions: [
           IconButton(
             icon: Icon(Icons.logout),
@@ -38,7 +38,7 @@ class _NewPostPageState extends State<NewPostPage> {
               );
             },
           )
-        ],
+        ],*/
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -135,7 +135,7 @@ class _NewPostPageState extends State<NewPostPage> {
                 if (_textController.text.isNotEmpty && _imageUrl != null) {
                   // 画像のURLが取得されているかを確認
                   await _addToFirebase();
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const MyApp()));
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const TopPage()));
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
