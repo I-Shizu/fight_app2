@@ -1,8 +1,6 @@
 import 'package:fight_app2/Page/album_page.dart';
 import 'package:fight_app2/Page/home_page.dart';
-import 'package:fight_app2/Page/login_page.dart';
 import 'package:fight_app2/Page/new_post_page.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class TopPage extends StatefulWidget {
@@ -25,19 +23,6 @@ class _TopPageState extends State<TopPage> {
   Widget build(BuildContext context) {
     
     return Scaffold(
-      appBar: AppBar(
-          actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => LoginPage()),
-              );
-            },
-          )
-        ],
-      ),
       body:  _pageWidgets.elementAt(_currentIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[

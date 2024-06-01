@@ -19,7 +19,7 @@ class Post {
       userId: data['userId'],
       text: data['text'],
       date: data['date'],
-      imageUrl: data['imageUrl'],
+     imageUrl: data['imageUrl'],
     );
   }
 }

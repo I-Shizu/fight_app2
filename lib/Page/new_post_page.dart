@@ -1,7 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fight_app2/Page/top_page.dart';
-import 'package:fight_app2/Utils/tategaki.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -110,8 +109,8 @@ class _NewPostPageState extends State<NewPostPage> {
                         border: Border.all(color: Colors.black),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Tategaki(
-                        text: _textController.text,
+                      child: Text(
+                        _textController.text,
                       ),
                     ),
                   ),
@@ -143,7 +142,7 @@ class _NewPostPageState extends State<NewPostPage> {
     );
   }
 
-  Future upload() async {
+  Future upload() async {//画像をFirebaseStorageへアップロード
     // 画像をスマホのギャラリーから取得
     final image = await ImagePicker().pickImage(source: ImageSource.gallery);
     // 画像を取得できた場合はFirebaseStorageにアップロードする

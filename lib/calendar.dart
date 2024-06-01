@@ -1,4 +1,6 @@
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -74,13 +76,15 @@ class _CalendarPageState extends State<CalendarPage> {
                         child: ListTile(
                           trailing: IconButton(
                                 onPressed: () async {
+                                  final imageUrl = document['imageUrl'];
                                   await FirebaseFirestore.instance
                                       .collection('posts')
                                       .doc(document.id)
                                       .delete();
-                                    setState(() {
-                                      filterdDocuments.removeAt(index);
-                                    });
+                                  await deleteImage(imageUrl);
+                                  setState(() {
+                                    filterdDocuments.removeAt(index);
+                                  });
                                 },
                                 icon: const Icon(Icons.delete),
                               ),
@@ -104,5 +108,21 @@ class _CalendarPageState extends State<CalendarPage> {
         ],
       ),
     );
+  }
+
+  Future<void> deleteImage(String imageUrl) async {
+    try {
+      //documentのプロパティ(imageUrl)のURLからファイルを抽出する⇨RegExpやUriを用いる
+      final RegExp regex = RegExp(r'\/o\/(.*)\?alt');
+      final match  = regex.firstMatch(imageUrl);
+      if (match != null) {
+        final imageName = match.group(1);
+        if(imageName != null){
+          await FirebaseStorage.instance.refFromURL(imageUrl).delete();
+        }
+      }
+    } catch (e) {
+      return null;
+    }
   }
 }

@@ -1,4 +1,6 @@
+import 'package:fight_app2/Page/login_page.dart';
 import 'package:fight_app2/calendar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,16 +11,18 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Padding(
-              padding: EdgeInsets.all(8),//ここの調節をどうにかする
-            ),
-          ],
-        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const LoginPage()),
+              );
+            },
+          )
+        ],
       ),
-      // ignore: prefer_const_constructors
       body: CalendarPage(),//columnするとエラーになる
     );
   }
