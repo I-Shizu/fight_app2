@@ -21,7 +21,7 @@ class _CalendarPageState extends State<CalendarPage> {
     return Scaffold(
       body: Column(
         children: [
-          Padding(
+          Padding(//カレンダー
             padding: const EdgeInsets.all(8.0),
             child: TableCalendar(
               firstDay: DateTime.utc(2010, 1, 1),
@@ -49,7 +49,7 @@ class _CalendarPageState extends State<CalendarPage> {
             ),
           ),
 
-          StreamBuilder<QuerySnapshot>(
+          StreamBuilder<QuerySnapshot>(//ポスト表示
             stream: 
               FirebaseFirestore.instance.collection('posts').snapshots(), 
             builder: (context, snapshot){
@@ -74,28 +74,32 @@ class _CalendarPageState extends State<CalendarPage> {
                       final date = (document['date'] as Timestamp).toDate();
                       return Card(
                         child: ListTile(
-                          trailing: IconButton(
-                                onPressed: () async {
-                                  final imageUrl = document['imageUrl'];
-                                  await FirebaseFirestore.instance
-                                      .collection('posts')
-                                      .doc(document.id)
-                                      .delete();
-                                  await deleteImage(imageUrl);
-                                  setState(() {
-                                    filterdDocuments.removeAt(index);
-                                  });
-                                },
-                                icon: const Icon(Icons.delete),
-                              ),
-                              subtitle:
-                                  Column(
+                          subtitle:
+                              Column(
+                                children: [
+                                  document['imageUrl'] != null ? Image.network(document['imageUrl']) : Container(),
+                                  Row(
                                     children: [
-                                      document['imageUrl'] != null ? Image.network(document['imageUrl']) : Container(),
-                                      Text(document['text']),
                                       Text('${date.year}/${date.month}/${date.day}'),
+                                      Spacer(),
+                                      IconButton(
+                                        onPressed: () async {
+                                          final imageUrl = document['imageUrl'];
+                                          await FirebaseFirestore.instance
+                                              .collection('posts')
+                                              .doc(document.id)
+                                              .delete();
+                                          deleteImage(imageUrl);
+                                          setState(() {
+                                            filterdDocuments.removeAt(index);
+                                          });
+                                        },
+                                        icon: const Icon(Icons.delete),
+                                      ),
                                     ],
                                   ),
+                                ],
+                              ),
                         ),
                       );
                     },

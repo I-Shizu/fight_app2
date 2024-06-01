@@ -35,11 +35,10 @@ class _AlbumPageState extends State<AlbumPage> {
             itemBuilder:(context, index) {
               return Card(
                 child: ListTile(
-                  //title: Text(posts[index].title),
                   subtitle: Column(
                     children: [
                       posts[index].imageUrl != null ? Image.network(posts[index].imageUrl!) : Container(),
-                      //Text(posts[index].text),
+                      Text(posts[index].text),
                       Text(posts[index].date != null ?DateFormat('yyyy-MM-dd').format(posts[index].date!.toDate()) : '日付はありません'),
                     ],
                   ),
