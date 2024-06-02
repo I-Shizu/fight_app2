@@ -38,7 +38,12 @@ class _AlbumPageState extends State<AlbumPage> {
                   subtitle: Column(
                     children: [
                       posts[index].imageUrl != null ? Image.network(posts[index].imageUrl!) : Container(),
-                      Text(posts[index].text),
+                      Text(
+                        posts[index].text,
+                        style: const TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
                       Text(posts[index].date != null ?DateFormat('yyyy-MM-dd').format(posts[index].date!.toDate()) : '日付はありません'),
                     ],
                   ),

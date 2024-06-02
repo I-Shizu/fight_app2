@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
           )
         ],
       ),
-      body: CalendarPage(),//columnするとエラーになる
+      body: const CalendarPage(),//columnするとエラーになる
     );
   }
 }

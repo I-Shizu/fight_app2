@@ -81,7 +81,7 @@ class _CalendarPageState extends State<CalendarPage> {
                                   Row(
                                     children: [
                                       Text('${date.year}/${date.month}/${date.day}'),
-                                      Spacer(),
+                                      const Spacer(),
                                       IconButton(
                                         onPressed: () async {
                                           final imageUrl = document['imageUrl'];
@@ -126,7 +126,7 @@ class _CalendarPageState extends State<CalendarPage> {
         }
       }
     } catch (e) {
-      return null;
+      return;
     }
   }
 }

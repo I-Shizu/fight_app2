@@ -60,7 +60,7 @@ class _NewPostPageState extends State<NewPostPage> {
                             duration: Duration(seconds: 3),
                           )
                         );
-                        return; // 画像が既に選択されている場合は処理を中断
+                        return; // 画像が既に選択されている場合
                       } else {
                         await upload();
                       }
@@ -111,7 +111,7 @@ class _NewPostPageState extends State<NewPostPage> {
                       ),
                       child: Text(
                         _textController.text,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 25,
                         ),
                       ),
@@ -207,7 +207,12 @@ class _NewPostPageState extends State<NewPostPage> {
           borderRadius: BorderRadius.circular(12),
         ),
         child: const Center(
-          child: Text('あっぷろーど')
+          child: Text(
+            'あっぷろーど',
+            style: TextStyle(
+              fontSize: 25,
+            ),
+          )
         ),
       );
     }
