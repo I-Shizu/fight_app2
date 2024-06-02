@@ -111,10 +111,13 @@ class _NewPostPageState extends State<NewPostPage> {
             ElevatedButton(//保存ボタン
               onPressed: () async {
                 if (_textController.text.isNotEmpty && _imageUrl != null) {
-                  // 画像のURLが取得されているかを確認
                   await _addToFirebase();
-                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => const TopPage()));
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (BuildContext context) => TopPage(),
+                    )
+                  );
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
