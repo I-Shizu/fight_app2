@@ -111,6 +111,9 @@ class _NewPostPageState extends State<NewPostPage> {
                       ),
                       child: Text(
                         _textController.text,
+                        style: TextStyle(
+                          fontSize: 25,
+                        ),
                       ),
                     ),
                   ),
