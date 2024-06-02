@@ -17,7 +17,7 @@ class NewPostPage extends StatefulWidget {
 
 class _NewPostPageState extends State<NewPostPage> {
 
-  final TextEditingController _textController = TextEditingController();
+  final TextEditingController _textController = TextEditingController(text: '');
   final DateTime _postTime = DateTime.now();
   final formatter = DateFormat('yyyy-MM-dd');
   String? _imageUrl;
@@ -102,25 +102,12 @@ class _NewPostPageState extends State<NewPostPage> {
                         },
                       );
                     },
-                    child: Container(//入力されたテキストを表示
-                      width: double.infinity,
-                      height: 230,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.black),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Text(
-                        _textController.text,
-                        style: const TextStyle(
-                          fontSize: 25,
-                        ),
-                      ),
-                    ),
+                    child: showText(),//入力したテキストの表示
                   ),
                 ),
               ],
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(height: 20),
             ElevatedButton(//保存ボタン
               onPressed: () async {
                 if (_textController.text.isNotEmpty && _imageUrl != null) {
@@ -187,25 +174,12 @@ class _NewPostPageState extends State<NewPostPage> {
   Widget showImage() {
     if(_imageUrl != null){
       return Container(
-        width: double.infinity,
-        height: 230,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(13),
-        ),
-        child: FittedBox(
-          fit: BoxFit.fill,
-          child: Image.network(_imageUrl!)
-        ),
+        margin: const EdgeInsets.all(5),
+        child: Image.network(_imageUrl!),
       );
     } else {
       return Container(
-        width: double.infinity,
-        height: 230,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(12),
-        ),
+        margin: const EdgeInsets.all(5),
         child: const Center(
           child: Text(
             'あっぷろーど',
@@ -213,6 +187,29 @@ class _NewPostPageState extends State<NewPostPage> {
               fontSize: 25,
             ),
           )
+        ),
+      );
+    }
+  }
+
+  Widget showText() {
+    if(_textController.text != ''){
+      return Container(//入力されたテキストを表示
+        margin: const EdgeInsets.all(10),
+        child: Text(
+          _textController.text,
+          style: TextStyle(
+            fontSize: 25,
+          ),
+        ),
+      );
+    } else {
+      return Center(
+        child: Text(
+          'てきすと',
+          style: TextStyle(
+            fontSize: 25,
+          ),
         ),
       );
     }
