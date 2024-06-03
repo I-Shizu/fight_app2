@@ -15,7 +15,7 @@ class NewPostPage extends StatefulWidget {
   State<NewPostPage> createState() => _NewPostPageState();
 }
 
-class _NewPostPageState extends State<NewPostPage> {
+class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClientMixin {
 
   final TextEditingController _textController = TextEditingController(text: '');
   final DateTime _postTime = DateTime.now();
@@ -23,7 +23,12 @@ class _NewPostPageState extends State<NewPostPage> {
   String? _imageUrl;
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       appBar: AppBar(
 

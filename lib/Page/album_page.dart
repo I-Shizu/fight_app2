@@ -11,7 +11,7 @@ class AlbumPage extends StatefulWidget {
   State<AlbumPage> createState() => _AlbumPageState();
 }
 
-class _AlbumPageState extends State<AlbumPage> {
+class _AlbumPageState extends State<AlbumPage> with AutomaticKeepAliveClientMixin {
   List<Post> posts = [];
   bool _isLoading = true;
   String? imageUrl;
@@ -23,7 +23,11 @@ class _AlbumPageState extends State<AlbumPage> {
   }
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
 
     return Scaffold(
       body: _isLoading 
