@@ -120,7 +120,7 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                      builder: (BuildContext context) => TopPage(),
+                      builder: (BuildContext context) => const TopPage(),
                     )
                   );
                 } else {
@@ -206,13 +206,13 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
         margin: const EdgeInsets.all(10),
         child: Text(
           _textController.text,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 25,
           ),
         ),
       );
     } else {
-      return Center(
+      return const Center(
         child: Text(
           'てきすと',
           style: TextStyle(

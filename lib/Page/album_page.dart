@@ -61,7 +61,11 @@ class _AlbumPageState extends State<AlbumPage> with AutomaticKeepAliveClientMixi
   void _fetchFirebaseData() async {
     final db = FirebaseFirestore.instance;
 
-    final events = await db.collection("posts").orderBy("date", descending: true).get();
+    final events = await db
+      .collection("posts")
+      .orderBy("date", descending: true)
+      .limit(50)
+      .get();
     final docs = events.docs;
     final posts = docs.map((doc) => Post.fromFirestore(doc)).toList();
 
