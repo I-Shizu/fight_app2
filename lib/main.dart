@@ -1,6 +1,8 @@
 import 'package:fight_app2/Page/login_page.dart';
 import 'package:fight_app2/firebase_options.dart';
+import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,6 +12,11 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+   await FirebaseAppCheck.instance.activate(
+    appleProvider: kReleaseMode ? AppleProvider.deviceCheck : AppleProvider.debug,
+   );
+
   runApp( 
      const MyApp(),
   );
