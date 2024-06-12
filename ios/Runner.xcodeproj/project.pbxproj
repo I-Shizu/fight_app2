@@ -236,6 +236,7 @@
 			mainGroup = 97C146E51CF9000F007C117D;
 			packageReferences = (
 				CE71C2732BF8657F00E059B1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				CEDE04CB2C197D580011CAFE /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
@@ -773,6 +774,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 10.26.0;
+			};
+		};
+		CEDE04CB2C197D580011CAFE /* XCRemoteSwiftPackageReference "swift-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
