@@ -962,7 +962,7 @@ PODS:
   - BoringSSL-GRPC/Implementation (0.0.32):
     - BoringSSL-GRPC/Interface (= 0.0.32)
   - BoringSSL-GRPC/Interface (0.0.32)
-  - cloud_firestore (4.17.3):
+  - cloud_firestore (4.17.5):
     - Firebase/Firestore (= 10.25.0)
     - firebase_core
     - Flutter
@@ -982,14 +982,14 @@ PODS:
     - firebase_core
     - FirebaseAppCheck (~> 10.25.0-beta)
     - Flutter
-  - firebase_auth (4.19.6):
+  - firebase_auth (4.20.0):
     - Firebase/Auth (= 10.25.0)
     - firebase_core
     - Flutter
   - firebase_core (2.32.0):
     - Firebase/CoreOnly (= 10.25.0)
     - Flutter
-  - firebase_storage (11.7.5):
+  - firebase_storage (11.7.7):
     - Firebase/Storage (= 10.25.0)
     - firebase_core
     - Flutter
@@ -1183,6 +1183,9 @@ PODS:
 
 DEPENDENCIES:
   - cloud_firestore (from `.symlinks/plugins/cloud_firestore/ios`)
+  - Firebase/Auth
+  - Firebase/Firestore
+  - Firebase/Storage
   - firebase_app_check (from `.symlinks/plugins/firebase_app_check/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
@@ -1246,12 +1249,12 @@ SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   AppCheckCore: db04d539b37794558391bc56bc65e2440b01a195
   BoringSSL-GRPC: 1e2348957acdbcad360b80a264a90799984b2ba6
-  cloud_firestore: 792f773e5e8c080ffcbadd49f9fb397927f29af6
+  cloud_firestore: 003d53b6b8b392600b7769acf9421cc4f23e5911
   Firebase: 0312a2352584f782ea56f66d91606891d4607f06
   firebase_app_check: 717089a2df93747620263dd6c8e444bde5699b7e
-  firebase_auth: 193301a23be35329120526c6a83672ea40676472
+  firebase_auth: 5719ddc9f654b813405899480e84971bd8e61235
   firebase_core: a626d00494efa398e7c54f25f1454a64c8abf197
-  firebase_storage: e8b44d3f47e35f60dde2a119da11dc6e8962bef3
+  firebase_storage: 5c0f552d6b27d621429d7fd16ebab4be94a3c954
   FirebaseAppCheck: 148fa858b8070710c8f83d3f545b5f1e85d104a4
   FirebaseAppCheckInterop: 0dd062c9926a76332ca5711dbed6f1a9ac540b54
   FirebaseAuth: c0f93dcc570c9da2bffb576969d793e95c344fbb
@@ -1278,6 +1281,6 @@ SPEC CHECKSUMS:
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RecaptchaInterop: 7d1a4a01a6b2cb1610a47ef3f85f0c411434cb21
 
-PODFILE CHECKSUM: d07c5367337ac2db4b613c54f3c7462edf2f3d24
+PODFILE CHECKSUM: 05eefd737262985fafa5a3a622e311f687587481
 
 COCOAPODS: 1.15.2
