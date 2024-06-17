@@ -13,9 +13,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-   await FirebaseAppCheck.instance.activate(
-    appleProvider: kReleaseMode ? AppleProvider.deviceCheck : AppleProvider.debug,
-   );
+  await FirebaseAppCheck.instance.activate(
+  appleProvider: kReleaseMode ? AppleProvider.deviceCheck : AppleProvider.debug,
+  );
 
   runApp( 
      const MyApp(),

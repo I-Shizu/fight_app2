@@ -60,5 +60,7 @@
 	<string>This app requires to add file to your camera</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>This app requires to add file to your photo library your microphone</string>
+	<key>GIDClientID</key>
+	<string>927022828051-7j20v8spnip056s724as8pq8nkqkr42r.apps.googleusercontent.com</string>
 </dict>
 </plist>
