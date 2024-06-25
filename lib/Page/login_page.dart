@@ -13,7 +13,22 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-    Future<User?> signInWithGoogle(BuildContext context) async {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () async{
+            signInWithGoogle(context);
+          }, 
+          child: const Text('Sign In with Google'),
+        ),
+      ),
+    );
+  }
+
+  Future<User?> signInWithGoogle(BuildContext context) async {
       try {
         final googleUser = await GoogleSignIn().signIn();
         //ログインキャンセル
@@ -50,20 +65,6 @@ class _LoginPageState extends State<LoginPage> {
       }
       return null;
     }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () async{
-            signInWithGoogle(context);
-          }, 
-          child: const Text('Sign In with Google'),
-        ),
-      ),
-    );
-  }
 
   Future<void> ?_addUserToFirestore(User user) async {
     final usersRef = FirebaseFirestore.instance.collection('users');

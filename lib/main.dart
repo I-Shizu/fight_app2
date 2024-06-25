@@ -1,4 +1,5 @@
 import 'package:fight_app2/Page/login_page.dart';
+import 'package:fight_app2/Page/top_page.dart';
 import 'package:fight_app2/firebase_options.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
