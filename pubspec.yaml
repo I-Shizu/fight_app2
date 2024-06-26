@@ -45,6 +45,7 @@ dependencies:
   firebase_auth: ^4.19.6
   google_sign_in: ^6.2.1
   firebase_app_check: ^0.2.2+7
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -57,6 +58,10 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
   custom_lint: ^0.6.4
+
+flutter_icons:       
+  ios: true
+  image_path: "assets/IMG_6974.JPG"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
