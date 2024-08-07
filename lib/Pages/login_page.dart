@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fight_app2/Page/top_page.dart';
+import 'package:fight_app2/Pages/top_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:fight_app2/Utils/dialog_utils.dart';
+import 'package:fight_app2/Utils/dialog_util.dart';
 //import 'package:flutter/services.dart';
 //import 'package:google_sign_in/google_sign_in.dart';
 

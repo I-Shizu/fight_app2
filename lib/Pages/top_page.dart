@@ -1,6 +1,6 @@
-import 'package:fight_app2/Page/album_page.dart';
-import 'package:fight_app2/Page/home_page.dart';
-import 'package:fight_app2/Page/new_post_page.dart';
+import 'package:fight_app2/Pages/album_page.dart';
+import 'package:fight_app2/Pages/home_page.dart';
+import 'package:fight_app2/Pages/new_post_page.dart';
 import 'package:flutter/material.dart';
 
 class TopPage extends StatefulWidget {
