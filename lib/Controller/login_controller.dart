@@ -2,6 +2,8 @@ import 'package:fight_app2/Utils/dialog_util.dart';
 import 'package:fight_app2/View/Pages/top_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+//import 'package:flutter/services.dart';
+//import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginController {
   final TextEditingController emailController = TextEditingController();

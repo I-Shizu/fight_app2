@@ -1,6 +1,5 @@
-import 'package:fight_app2/View/Pages/login_page.dart';
+import 'package:fight_app2/View/Pages/list_page.dart';
 import 'package:fight_app2/calendar.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -13,17 +12,18 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const LoginPage()),
+            icon: const Icon(
+              Icons.list,
+            ),
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const ListPage())
               );
             },
           )
         ],
       ),
-      body: const CalendarPage(),//columnするとエラーになる
+      body: const Calendar(),//columnするとエラーになる
     );
   }
 }

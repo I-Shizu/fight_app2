@@ -1,10 +1,8 @@
-import 'package:fight_app2/Model/firebase_model.dart';
+import 'package:fight_app2/Model/Api/firebase_firestore.dart';
 import 'package:fight_app2/Utils/dialog_util.dart';
 import 'package:fight_app2/View/Pages/top_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter/services.dart';
-//import 'package:google_sign_in/google_sign_in.dart';
 
 class RegisterController {
   final TextEditingController emailController = TextEditingController();
@@ -21,7 +19,7 @@ class RegisterController {
       );
       final User? user = userCredential.user;
       if (user != null) {
-        await FirebaseController().addUserToFirestore(user);
+        await FirebaseFirestoreApi().addUserToFirestore(user);
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) {

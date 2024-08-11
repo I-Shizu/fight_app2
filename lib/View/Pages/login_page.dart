@@ -31,6 +31,12 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text('Sign In with Google'),
               ),
             ),*/
+            Text(
+              'まだアカウントをお持ちでない方はこちら',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
             TextFormField(
               controller: LoginController().emailController,
               decoration: const InputDecoration(
@@ -49,6 +55,13 @@ class _LoginPageState extends State<LoginPage> {
                 RegisterController().registerWithMailAndPassWord(context);
               }, 
               child: const Text('新規登録'),
+            ),
+            SizedBox(height: 20),
+            Text(
+              'すでにアカウントをお持ちの方はこちら',
+              style: TextStyle(
+                fontSize: 15,
+              ),
             ),
             ElevatedButton(
               onPressed: () {

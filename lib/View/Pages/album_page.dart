@@ -1,4 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fight_app2/Model/Api/firebase_firestore.dart';
 import 'package:fight_app2/post.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -19,7 +19,7 @@ class _AlbumPageState extends State<AlbumPage> with AutomaticKeepAliveClientMixi
   @override
   void initState() {
     super.initState();
-    _fetchFirebaseData();
+    FirebaseFirestoreApi().fetchFirebaseData();
   }
 
   @override
@@ -56,22 +56,5 @@ class _AlbumPageState extends State<AlbumPage> with AutomaticKeepAliveClientMixi
             },
           ),
     );
-  }
-
-  void _fetchFirebaseData() async {
-    final db = FirebaseFirestore.instance;
-
-    final events = await db
-      .collection("posts")
-      .orderBy("date", descending: true)
-      .limit(50)
-      .get();
-    final docs = events.docs;
-    final posts = docs.map((doc) => Post.fromFirestore(doc)).toList();
-
-    setState(() {
-      this.posts = posts;
-      _isLoading = false;
-    });
   }
 }

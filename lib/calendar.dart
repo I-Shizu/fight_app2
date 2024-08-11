@@ -4,14 +4,14 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
-class CalendarPage extends StatefulWidget {
-  const CalendarPage({super.key});
+class Calendar extends StatefulWidget {
+  const Calendar({super.key});
 
   @override
-  State<CalendarPage> createState() => _CalendarPageState();
+  State<Calendar> createState() => _CalendarState();
 }
 
-class _CalendarPageState extends State<CalendarPage> {
+class _CalendarState extends State<Calendar> {
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime? _selectedDay;
