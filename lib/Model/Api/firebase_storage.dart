@@ -1,27 +1,36 @@
+import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:image_picker/image_picker.dart';
-
 class FirebaseStorageApi {
+  final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  Future upload() async {
-    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
-    // 画像を取得できた場合はFirebaseStorageにアップロードする
-    if (image != null) {
-      final imageFile = File(image.path);
-      FirebaseStorage storage = FirebaseStorage.instance;
-      final timeStamp = DateTime.now().millisecondsSinceEpoch.toString();
-      final imageName = 'image_$timeStamp.jpg';
-
-      try {
-        final TaskSnapshot uploadTask = await storage.ref(imageName).putFile(imageFile);
-        final String imageUrl = await uploadTask.ref.getDownloadURL();
-        return imageUrl;
-      } catch (e) {
-        return null;
-      }
+  // ファイルをアップロードし、そのダウンロードURLを返す
+  Future<String> uploadFile(String path, File file) async {
+    try {
+      Reference ref = _storage.ref().child(path);
+      UploadTask uploadTask = ref.putFile(file);
+      TaskSnapshot snapshot = await uploadTask;
+      return await snapshot.ref.getDownloadURL();
+    } catch (e) {
+      throw Exception('ファイルのアップロードに失敗しました: $e');
     }
-    return;
+  }
+
+  // ダウンロードURLを取得
+  Future<String> getDownloadURL(String path) async {
+    try {
+      return await _storage.ref().child(path).getDownloadURL();
+    } catch (e) {
+      throw Exception('ダウンロードURLの取得に失敗しました: $e');
+    }
+  }
+
+  // ファイルを削除
+  Future<void> deleteFile(String path) async {
+    try {
+      await _storage.ref().child(path).delete();
+    } catch (e) {
+      throw Exception('ファイルの削除に失敗しました: $e');
+    }
   }
 }

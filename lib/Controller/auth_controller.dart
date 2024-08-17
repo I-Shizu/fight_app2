@@ -1,40 +1,36 @@
-import 'package:fight_app2/Utils/dialog_util.dart';
-import 'package:fight_app2/View/Pages/top_page.dart';
+import 'package:fight_app2/Model/Api/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-//import 'package:flutter/services.dart';
-//import 'package:google_sign_in/google_sign_in.dart';
 
-class LoginController {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class AuthController {
+  final FirebaseAuthApi _authApi = FirebaseAuthApi();
 
-  Future<void> signInWithMailAndPassword(BuildContext context) async {
-    final email = emailController.text;
-    final password = passwordController.text;
-
+  Future<void> registerUser(String email, String password) async {
     try {
-      final UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
-      final User? user = userCredential.user;
+      User? user = await _authApi.signUpWithEmail(email, password);
       if (user != null) {
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) {
-              return const TopPage();
-            }
-          ),
-        );
+        Exception('登録成功: ${user.email}');
       }
-    } on FirebaseAuthException catch (e) {
-      showErrorDialog(context, e.message);  // エラーダイアログを表示
     } catch (e) {
-      showErrorDialog(context, e.toString());  // エラーダイアログを表示
+      Exception('登録に失敗しました: $e');
     }
   }
-  
+
+  Future<void> loginUser(String email, String password) async {
+    try {
+      User? user = await _authApi.signInWithEmail(email, password);
+      if (user != null) {
+        Exception('ログイン成功: ${user.email}');
+      }
+    } catch (e) {
+      Exception('ログインに失敗しました: $e');
+    }
+  }
+
+  Future<void> logoutUser() async {
+    await _authApi.signOut();
+    Exception('ログアウトしました');
+  }
+
   //グーグルログイン機能使えないのでコメントアウト
   /*Future<User?> signInWithGoogle(BuildContext context) async {
     try {

@@ -1,29 +1,55 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-class FirebaseAuthenticationApi {
-  final _auth = FirebaseAuth.instance;
-  User? get currentUser => _auth.currentUser;
+class FirebaseAuthApi {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<UserCredential> signInEmail({required String email, required String password}) async {
-    return await _auth.signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  // 現在のログインユーザーを取得
+  User? getCurrentUser() {
+    return _auth.currentUser;
   }
 
-  Future<UserCredential> signUpEmail({required String email, required String password}) async {
-    return await _auth.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+  Future<User?> signInWithEmail(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCredential.user;
+    } catch (e) {
+      throw Exception('ログインに失敗しました: $e');
+    }
+  }
+
+  Future<User?> signUpWithEmail(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return userCredential.user;
+    } catch (e) {
+      throw Exception('ユーザー登録に失敗しました: $e');
+    }
   }
 
   Future<void> signOut() async {
-    await _auth.signOut();
+    try {
+      await _auth.signOut();
+    } catch (e) {
+      throw Exception('ログアウトに失敗しました: $e');
+    }
   }
 
   Future<void> delete() async {
     await _auth.currentUser!.delete();
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      throw Exception('パスワードリセットメールの送信に失敗しました: $e');
+    }
   }
 
 }
