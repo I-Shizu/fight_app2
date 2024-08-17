@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fight_app2/Model/post.dart';
 
 class FirestoreApi {
- final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String _collectionPath = 'posts';
 
   // Firestoreから投稿データを取得

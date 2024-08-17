@@ -1,10 +1,10 @@
-import 'package:fight_app2/Model/Api/firebase_firestore.dart';
-import 'package:fight_app2/Model/Api/firebase_storage.dart';
+import 'dart:io';
+
+import 'package:fight_app2/Controller/post_controller.dart';
 import 'package:fight_app2/View/Pages/top_page.dart';
 import 'package:fight_app2/View/Widget/Image/new_post_image.dart';
 import 'package:fight_app2/View/Widget/Text/new_post_text.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/intl.dart';
 
 
@@ -67,7 +67,8 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
                         );
                         return; // 画像が既に選択されている場合
                       } else {
-                        await FirebaseStorageApi().upload();
+                        //Postの呼び出しでまとめる？Modelに直接アクセスするのはよくない
+                        //await FirebaseStorageApi().uploadFile();
                       }
                     },
                     child: NewPostImage().showImage(),
@@ -117,7 +118,7 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
               onPressed: () async {
                 if (_textController.text.isNotEmpty && _imageUrl != null) {
                   //修正の可能性あり
-                  await FirebaseFirestoreApi().addUserToFirestore(User as User);
+                  await PostController().createPost(_textController.text, _imageUrl! as File);
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(

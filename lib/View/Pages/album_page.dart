@@ -1,8 +1,8 @@
 import 'package:fight_app2/Model/Api/firebase_firestore.dart';
-import 'package:fight_app2/post.dart';
+import 'package:fight_app2/Model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+//Modelに直接アクセスするのはよくないので、Controllerを使う
 
 class AlbumPage extends StatefulWidget {
   const AlbumPage({super.key,});
@@ -19,7 +19,7 @@ class _AlbumPageState extends State<AlbumPage> with AutomaticKeepAliveClientMixi
   @override
   void initState() {
     super.initState();
-    FirebaseFirestoreApi().fetchFirebaseData();
+    FirestoreApi().getPosts();
   }
 
   @override
@@ -48,7 +48,7 @@ class _AlbumPageState extends State<AlbumPage> with AutomaticKeepAliveClientMixi
                           fontSize: 20,
                         ),
                       ),
-                      Text(posts[index].date != null ?DateFormat('yyyy-MM-dd').format(posts[index].date!.toDate()) : '日付はありません'),
+                      Text(posts[index].date != null ?DateFormat('yyyy-MM-dd').format(posts[index].date.toDate()) : '日付はありません'),
                     ],
                   ),
                 ),

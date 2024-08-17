@@ -1,8 +1,12 @@
 import 'package:fight_app2/Model/Api/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class AuthController {
   final FirebaseAuthApi _authApi = FirebaseAuthApi();
+
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   Future<void> registerUser(String email, String password) async {
     try {
@@ -29,6 +33,11 @@ class AuthController {
   Future<void> logoutUser() async {
     await _authApi.signOut();
     Exception('ログアウトしました');
+  }
+
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
   }
 
   //グーグルログイン機能使えないのでコメントアウト

@@ -1,5 +1,4 @@
-import 'package:fight_app2/Controller/login_controller.dart';
-import 'package:fight_app2/Controller/register_controller.dart';
+import 'package:fight_app2/Controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,6 +9,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  final email = AuthController().emailController;
+  final password = AuthController().passwordController;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            //グーグルログイン機能使えないのでコメントアウト
+            //グーグルログイン機能使えないのでとりあえずコメントアウト
             /*Center(
               child: ElevatedButton(
                 onPressed: () async{
@@ -38,13 +39,13 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             TextFormField(
-              controller: LoginController().emailController,
+              controller: email,
               decoration: const InputDecoration(
                 labelText: 'Email',
               ),
             ),
             TextFormField(
-              controller: LoginController().passwordController,
+              controller: password,
               decoration: const InputDecoration(
                 labelText: 'Password',
               ),
@@ -52,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                RegisterController().registerWithMailAndPassWord(context);
+                AuthController().registerUser(email as String, password as String);
               }, 
               child: const Text('新規登録'),
             ),
@@ -65,7 +66,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
             ElevatedButton(
               onPressed: () {
-                LoginController().signInWithMailAndPassword(context);
+                AuthController().loginUser(email as String, password as String);
               },
               child: const Text('ログイン'),
             ),
