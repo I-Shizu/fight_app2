@@ -1,6 +1,6 @@
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fight_app2/Controller/post_controller.dart';
+import 'package:fight_app2/Model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -15,6 +15,7 @@ class _CalendarState extends State<Calendar> {
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime? _selectedDay;
+  final PostController _postController = PostController();
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +32,10 @@ class _CalendarState extends State<Calendar> {
                 return isSameDay(_selectedDay, day);
               },
               onDaySelected: (selectedDay, focusedDay) {
-                _focusedDay = focusedDay;
-                _selectedDay = selectedDay;
-                setState(() {});
+                setState(() {
+                  _focusedDay = focusedDay;
+                  _selectedDay = selectedDay;
+                });
               },
               onFormatChanged: (format) {  
                 if (_calendarFormat != format) {
@@ -48,85 +50,53 @@ class _CalendarState extends State<Calendar> {
               calendarFormat: _calendarFormat,
             ),
           ),
+          Expanded(
+            child: FutureBuilder<List<Post>>(
+              future: _postController.getPostsForDay(_selectedDay ?? DateTime.now()),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  return const Center(child: Text("まだ投稿はありません"));
+                }
 
-          StreamBuilder<QuerySnapshot>(//ポスト表示
-            stream: 
-              FirebaseFirestore.instance.collection('posts').snapshots(), 
-            builder: (context, snapshot){
-              if(snapshot.hasData){
-                final List<QueryDocumentSnapshot> documents =
-                  snapshot.data!.docs;
-
-                final List<QueryDocumentSnapshot> filterdDocuments =
-                  documents.where((doc) {
-                    final date = (doc['date'] as Timestamp).toDate();
-                    return isSameDay(_selectedDay, date);
-                  }).toList();
-
-                filterdDocuments
-                  .sort((a, b) => a['date'].compareTo(b['date']));
-
-                return Expanded(
-                  child: ListView.builder(
-                    itemCount: filterdDocuments.length,
-                    itemBuilder: (context, index) {
-                      final document = filterdDocuments[index];
-                      final date = (document['date'] as Timestamp).toDate();
-                      return Card(
-                        child: ListTile(
-                          subtitle:
-                              Column(
-                                children: [
-                                  document['imageUrl'] != null ? Image.network(document['imageUrl']) : Container(),
-                                  Row(
-                                    children: [
-                                      Text('${date.year}/${date.month}/${date.day}'),
-                                      const Spacer(),
-                                      IconButton(
-                                        onPressed: () async {
-                                          final imageUrl = document['imageUrl'];
-                                          await FirebaseFirestore.instance
-                                              .collection('posts')
-                                              .doc(document.id)
-                                              .delete();
-                                          deleteImage(imageUrl);
-                                          setState(() {
-                                            filterdDocuments.removeAt(index);
-                                          });
-                                        },
-                                        icon: const Icon(Icons.delete),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                final posts = snapshot.data!;
+                return ListView.builder(
+                  itemCount: posts.length,
+                  itemBuilder: (context, index) {
+                    final post = posts[index];
+                    return Card(
+                      child: ListTile(
+                        subtitle: Column(
+                          children: [
+                            post.imageUrl != null
+                                ? Image.network(post.imageUrl!)
+                                : Container(),
+                            Row(
+                              children: [
+                                Text('${post.date.toDate().year}/${post.date.toDate().month}/${post.date.toDate().day}'),
+                                const Spacer(),
+                                IconButton(
+                                  onPressed: () async {
+                                    await _postController.deletePost(post.id, post.imageUrl!);
+                                    setState(() {});
+                                  },
+                                  icon: const Icon(Icons.delete),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      );
-                    },
-                  ),
+                      ),
+                    );
+                  },
                 );
-              }
-              return const Center(child: CircularProgressIndicator(),);
-            }
+              },
+            ),
           ),
         ],
       ),
     );
-  }
-
-  Future<void> deleteImage(String imageUrl) async {
-    try {
-      //documentのプロパティ(imageUrl)のURLからファイルを抽出する⇨RegExpやUriを用いる
-      final RegExp regex = RegExp(r'\/o\/(.*)\?alt');
-      final match  = regex.firstMatch(imageUrl);
-      if (match != null) {
-        final imageName = match.group(1);
-        if(imageName != null){
-          await FirebaseStorage.instance.refFromURL(imageUrl).delete();
-        }
-      }
-    } catch (e) {
-      return;
-    }
   }
 }
