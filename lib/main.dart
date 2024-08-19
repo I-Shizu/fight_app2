@@ -1,6 +1,5 @@
-import 'package:fight_app2/View/Pages/login_page.dart';
 import 'package:fight_app2/Config/firebase_options.dart';
-import 'package:fight_app2/View/Pages/top_page.dart';
+import 'package:fight_app2/View/Pages/login_page.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -35,7 +34,7 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: const TopPage(),
+      home: const LoginPage(),
     );
   }
 }

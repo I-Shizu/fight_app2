@@ -8,31 +8,26 @@ class AuthController {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
-  Future<void> registerUser(String email, String password) async {
+  Future<User?> registerUser(String email, String password) async {
     try {
       User? user = await _authApi.signUpWithEmail(email, password);
-      if (user != null) {
-        Exception('登録成功: ${user.email}');
-      }
+      return user;
     } catch (e) {
-      Exception('登録に失敗しました: $e');
+      return null;
     }
   }
 
-  Future<void> loginUser(String email, String password) async {
+  Future<User?> loginUser(String email, String password) async {
     try {
       User? user = await _authApi.signInWithEmail(email, password);
-      if (user != null) {
-        Exception('ログイン成功: ${user.email}');
-      }
+      return user;
     } catch (e) {
-      Exception('ログインに失敗しました: $e');
+      return null;
     }
   }
 
   Future<void> logoutUser() async {
     await _authApi.signOut();
-    Exception('ログアウトしました');
   }
 
   void dispose() {

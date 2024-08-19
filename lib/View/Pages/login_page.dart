@@ -1,4 +1,7 @@
 import 'package:fight_app2/Controller/auth_controller.dart';
+import 'package:fight_app2/Utils/dialog_util.dart';
+import 'package:fight_app2/View/Pages/top_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -9,8 +12,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final email = AuthController().emailController;
-  final password = AuthController().passwordController;
+  final _authController = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,21 +41,33 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             TextFormField(
-              controller: email,
+              controller: _authController.emailController,
               decoration: const InputDecoration(
                 labelText: 'Email',
               ),
             ),
             TextFormField(
-              controller: password,
+              controller: _authController.passwordController,
               decoration: const InputDecoration(
                 labelText: 'Password',
               ),
               obscureText: true,
             ),
             ElevatedButton(
-              onPressed: () {
-                AuthController().registerUser(email as String, password as String);
+              onPressed: () async {
+                User? user = await _authController.registerUser(
+                  _authController.emailController.text,
+                  _authController.passwordController.text,
+                );
+                if (user != null) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const TopPage(),
+                    ),
+                  );
+                } else {
+                  showErrorDialog(context, "認証に失敗しました。再度お試しください。");
+                }
               }, 
               child: const Text('新規登録'),
             ),
@@ -65,8 +79,20 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             ElevatedButton(
-              onPressed: () {
-                AuthController().loginUser(email as String, password as String);
+              onPressed: () async {
+                User? user = await _authController.loginUser(
+                  _authController.emailController.text,
+                  _authController.passwordController.text,
+                );
+                if (user != null) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const TopPage(),
+                    ),
+                  );
+                } else {
+                  showErrorDialog(context, "認証に失敗しました。再度お試しください。");
+                }
               },
               child: const Text('ログイン'),
             ),
