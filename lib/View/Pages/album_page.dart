@@ -2,7 +2,6 @@ import 'package:fight_app2/Model/Api/firebase_firestore.dart';
 import 'package:fight_app2/Model/post.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-//Modelに直接アクセスするのはよくないので、Controllerを使う
 
 class AlbumPage extends StatefulWidget {
   const AlbumPage({super.key,});

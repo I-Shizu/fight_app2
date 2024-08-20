@@ -3,9 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 class FirebaseAuthApi {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // 現在のログインユーザーを取得
-  User? getCurrentUser() {
+  User? checkCurrentUser() {
     return _auth.currentUser;
+  }
+
+  String? getCurrentUserId() {
+    return _auth.currentUser?.uid;
   }
 
   Future<User?> signInWithEmail(String email, String password) async {

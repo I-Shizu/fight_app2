@@ -23,4 +23,17 @@ class NewPostImage {
       );
     }
   }
+
+  // 画像がない場合に表示するプレースホルダー
+  Widget showImagePlaceholder() {
+    return Container(
+      width: double.infinity,
+      height: 230,
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.black),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: const Icon(Icons.image, size: 50, color: Colors.grey),
+    );
+  }
 }

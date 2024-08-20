@@ -4,14 +4,40 @@ import 'package:flutter/material.dart';
 
 class AuthController {
   final FirebaseAuthApi _authApi = FirebaseAuthApi();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? _currentUser;
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
+  User? get currentUser => _currentUser;
+
+  String? getCurrentUserId() {
+    return _auth.currentUser?.uid;
+  }
+
+  Future<void> checkAndLogin() async {
+    _currentUser = await _authApi.checkCurrentUser();
+
+    if (_currentUser == null) {
+      return null;
+    }
+  }
+
+  void checkUserAuthentication() {
+  User? user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    print("ユーザーが認証されていません。ログインしてください。");
+    // 必要に応じてログインページに遷移するコードを追加
+  } else {
+    print("ユーザーが認証されています。ユーザーID: ${user.uid}");
+  }
+}
+ 
   Future<User?> registerUser(String email, String password) async {
     try {
-      User? user = await _authApi.signUpWithEmail(email, password);
-      return user;
+      _currentUser = await _authApi.signUpWithEmail(email, password);
+      return _currentUser;
     } catch (e) {
       return null;
     }
@@ -19,8 +45,8 @@ class AuthController {
 
   Future<User?> loginUser(String email, String password) async {
     try {
-      User? user = await _authApi.signInWithEmail(email, password);
-      return user;
+      _currentUser = await _authApi.signInWithEmail(email, password);
+      return _currentUser;
     } catch (e) {
       return null;
     }
@@ -28,49 +54,15 @@ class AuthController {
 
   Future<void> logoutUser() async {
     await _authApi.signOut();
+    return _currentUser = null;
+  }
+
+  bool isAuthentificated() {
+    return _currentUser != null;
   }
 
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
   }
-
-  //グーグルログイン機能使えないのでコメントアウト
-  /*Future<User?> signInWithGoogle(BuildContext context) async {
-    try {
-      final googleUser = await GoogleSignIn().signIn();
-      //ログインキャンセル
-      if(googleUser == null){
-        return null;
-      }
-      final googleAuth = await googleUser.authentication;
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
-      //firebaseの認証情報をuserCredentialに入れる
-      final userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
-      final User? user = userCredential.user;//ユーザー情報をuserに入れる
-      if(context.mounted){
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) {
-              return const TopPage();
-            }
-          ),
-          (route) => false,
-        );
-      }
-      if(user != null){
-        await _addUserToFirestore(user);
-      }
-      return user;
-    } catch (e) {
-      if(e is PlatformException && e.code == 'sign_in_canceled'){
-      } else {
-        throw e.toString();
-      }
-    }
-    return null;
-  }*/
 }

@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:fight_app2/Controller/auth_controller.dart';
 import 'package:fight_app2/Controller/post_controller.dart';
+import 'package:fight_app2/Controller/storage_controller.dart';
 import 'package:fight_app2/View/Pages/top_page.dart';
-import 'package:fight_app2/View/Widget/Image/new_post_image.dart';
-import 'package:fight_app2/View/Widget/Text/new_post_text.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 
@@ -17,22 +18,53 @@ class NewPostPage extends StatefulWidget {
 
 class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClientMixin {
 
-  final TextEditingController _textController = TextEditingController(text: '');
-  String? _imageUrl;
+  final PostController _postController = PostController();
+  final AuthController _authController = AuthController();
+  final StorageController _storageController = StorageController();
+  final TextEditingController _postTextController = TextEditingController(text: '');
+
+  File? _imageFile;
+  String? _postImageUrl;
+  
   final formatter = DateFormat('yyyy-MM-dd');
   final _postTime = DateTime.now();
 
   @override
   bool get wantKeepAlive => true;
 
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      final ImageFile = File(pickedFile.path);
+      setState(() {
+        _postImageUrl = ImageFile.path;
+      });
+
+      String? userId = _authController.getCurrentUserId();
+      if (userId != null && _imageFile != null) {
+        _storageController.uploadUserImage(userId, _imageFile!).then((imageUrl) {
+          setState(() {
+            _postImageUrl = imageUrl;
+          });
+        });
+      } else {
+        // ユーザーが認証されていない場合の処理
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('エラー：ユーザーが認証されていません。再度ログインしてください。'),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
     return Scaffold(
-      appBar: AppBar(
-
-      ),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -48,40 +80,32 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
             const SizedBox(height: 20),
             Column(
               children: [
-                Container(//画像のアップロード
-                  width: double.infinity,// 横幅いっぱいまで広がる
+                Container(
+                  width: double.infinity,
                   height: 230,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: GestureDetector(//タップやドラックなど、ユーザーのアクションに対して関数を返すことができる
+                  child: GestureDetector(
                     onTap: () async {
-                      // 画像のアップロードを行う前に、画像が既に選択されているかを確認
-                      if (_imageUrl != null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('エラー：もうがぞうあるよ'),
-                            duration: Duration(seconds: 3),
-                          )
-                        );
-                        return; // 画像が既に選択されている場合
-                      } else {
-                        //Postの呼び出しでまとめる？Modelに直接アクセスするのはよくない
-                        //await FirebaseStorageApi().uploadFile();
-                      }
+                      await _pickImage();
                     },
-                    child: NewPostImage().showImage(),
+                    child: _postImageUrl != null
+                      ? (_postImageUrl!.startsWith('http')
+                          ? Image.network(_postImageUrl!)
+                          : Image.file(File(_postImageUrl!)))
+                      : const Center(child: Icon(Icons.image, size: 50, color: Colors.grey)),
                   ),
                 ),
-                Container(//テキストの入力
-                  width: double.infinity,// 横幅いっぱいまで広がる
+                Container(
+                  width: double.infinity,
                   height: 230,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.black),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: GestureDetector(//タップやドラックなど、ユーザーのアクションに対して関数を返すことができる
+                  child: GestureDetector(
                     onTap: () {
                       showDialog(
                         context: context, 
@@ -89,7 +113,7 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
                           return AlertDialog(
                             title: const Text('がんばったこと'),
                             content: TextField(
-                              controller: _textController,
+                              controller: _postTextController,
                               maxLines: 3,
                               decoration: const InputDecoration(
                                 border: OutlineInputBorder(),
@@ -108,7 +132,15 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
                         },
                       );
                     },
-                    child: NewPostText().showText(),//入力したテキストの表示
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      child: Text(
+                        _postTextController.text.isNotEmpty
+                            ? _postTextController.text
+                            : 'テキストを入力してください',
+                        style: const TextStyle(fontSize: 25),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -116,28 +148,43 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
             const SizedBox(height: 20),
             ElevatedButton(//保存ボタン
               onPressed: () async {
-                if (_textController.text.isNotEmpty && _imageUrl != null) {
-                  //修正の可能性あり
-                  await PostController().createPost(_textController.text, _imageUrl! as File);
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => const TopPage(),
-                    )
-                  );
-                } else {
+                if (_postTextController.text.isEmpty) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('エラー：テキストを入力し、画像をアップロードしてください'),
+                      content: Text('エラー：テキストを入力してください'),
                       duration: Duration(seconds: 2),
-                    )
+                    ),
                   );
+                } else if (_postImageUrl == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('エラー：画像を選択してください'),
+                      duration: Duration(seconds: 2),
+                    ),
+                  );
+                } else {
+                  try {
+                    await _postController.createPost(_postTextController.text, File(_postImageUrl!));
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (BuildContext context) => const TopPage(),
+                      ),
+                    );
+                  } catch (e) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('エラー：投稿の作成に失敗しました - ${e.toString()}'),
+                        duration: const Duration(seconds: 3),
+                      ),
+                    );
+                  }
                 }
               },
-              child: const Text('ほぞん'),
               style: ElevatedButton.styleFrom(
-                fixedSize: Size(200, double.infinity),
+                fixedSize: const Size(200, double.infinity),
               ),
+              child: const Text('ほぞん'),
             ),
           ],
         ),

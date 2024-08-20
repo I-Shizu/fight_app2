@@ -5,7 +5,6 @@ class FirestoreApi {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String _collectionPath = 'posts';
 
-  // Firestoreから投稿データを取得
   Future<List<Post>> getPosts() async {
     final querySnapshot = await _firestore
         .collection(_collectionPath)
@@ -16,7 +15,6 @@ class FirestoreApi {
     return querySnapshot.docs.map((doc) => Post.fromFirestore(doc)).toList();
   }
 
-  // Firestoreに投稿データを追加
   Future<void> addPostToFirestore(Post post) async {
    await _firestore.collection(_collectionPath).add(post.toFirestore());
   }

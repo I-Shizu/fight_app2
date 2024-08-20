@@ -4,11 +4,10 @@ import 'dart:io';
 class FirebaseStorageApi {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  // ファイルをアップロードし、そのダウンロードURLを返す
-  Future<String> uploadFile(String path, File file) async {
+  Future<String> uploadUserImage(String userId, File file) async {
     try {
-      Reference ref = _storage.ref().child(path);
-      UploadTask uploadTask = ref.putFile(file);
+      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      UploadTask uploadTask = _storage.ref('user_images/$userId/$fileName').putFile(file);
       TaskSnapshot snapshot = await uploadTask;
       return await snapshot.ref.getDownloadURL();
     } catch (e) {

@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class NewPostText {
-  final TextEditingController textEditingController = TextEditingController(text: '');
+  final String text;
+
+  NewPostText({required this.text});
 
   Widget showText() {
-    if(textEditingController.text != ''){
+    if(text != ''){
       return Container(//入力されたテキストを表示
         margin: const EdgeInsets.all(10),
         child: Text(
-          textEditingController.text,
+          text,
           style: const TextStyle(
             fontSize: 25,
           ),
