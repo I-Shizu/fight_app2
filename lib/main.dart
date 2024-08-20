@@ -1,5 +1,7 @@
 import 'package:fight_app2/Config/firebase_options.dart';
+import 'package:fight_app2/Controller/auth_controller.dart';
 import 'package:fight_app2/View/Pages/login_page.dart';
+import 'package:fight_app2/View/Pages/top_page.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
@@ -18,12 +20,12 @@ void main() async {
   );
 
   runApp( 
-     const MyApp(),
+    MyApp(),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AuthController authController = AuthController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +36,18 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: const LoginPage(),
+      home: FutureBuilder(
+        future: authController.checkAndLogin(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }else if(authController.isAuthentificated()){
+            return TopPage();
+          }else {
+            return LoginPage();
+          }
+        },
+      ),
     );
   }
 }
