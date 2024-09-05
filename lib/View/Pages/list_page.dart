@@ -19,9 +19,10 @@ class _ListPageState extends State<ListPage> {
       body: ElevatedButton(
         onPressed: () async {
           await FirebaseAuth.instance.signOut();
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => const LoginPage()),
-              );
+          Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => LoginPage()),
+            (route) => false,
+          );
         }, 
         child: Text('ログアウト'),
       ),

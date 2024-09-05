@@ -42,20 +42,11 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
       });
 
       String? userId = _authController.getCurrentUserId();
-      if (userId != null && _imageFile != null) {
-        _storageController.uploadUserImage(userId, _imageFile!).then((imageUrl) {
-          setState(() {
-            _postImageUrl = imageUrl;
-          });
+      _storageController.uploadUserImage(userId!, _imageFile!).then((imageUrl) {
+        setState(() {
+          _postImageUrl = imageUrl;
         });
-      } else {
-        // ユーザーが認証されていない場合の処理
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('エラー：ユーザーが認証されていません。再度ログインしてください。'),
-          ),
-        );
-      }
+      });
     }
   }
 
@@ -163,22 +154,10 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
                     ),
                   );
                 } else {
-                  try {
-                    await _postController.createPost(_postTextController.text, File(_postImageUrl!));
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (BuildContext context) => const TopPage(),
-                      ),
-                    );
-                  } catch (e) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('エラー：投稿の作成に失敗しました - ${e.toString()}'),
-                        duration: const Duration(seconds: 3),
-                      ),
-                    );
-                  }
+                  await _postController.createPost(_postTextController.text, File(_postImageUrl!));
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => const TopPage()),
+                  );
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -190,5 +169,49 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
         ),
       ),
     );
+  }
+
+  Widget showImage() {
+    if(_postImageUrl != null){
+      return Container(
+        margin: const EdgeInsets.all(5),
+        child: Image.network(_postImageUrl!),
+      );
+    } else {
+      return Container(
+        margin: const EdgeInsets.all(5),
+        child: const Center(
+          child: Text(
+            'あっぷろーど',
+            style: TextStyle(
+              fontSize: 25,
+            ),
+          )
+        ),
+      );
+    }
+  }
+
+  Widget showText() {
+    if(_postTextController.text.isNotEmpty){
+      return Container(//入力されたテキストを表示
+        margin: const EdgeInsets.all(10),
+        child: Text(
+          _postTextController.text,
+          style: const TextStyle(
+            fontSize: 25,
+          ),
+        ),
+      );
+    } else {
+      return const Center(
+        child: Text(
+          'てきすと',
+          style: TextStyle(
+            fontSize: 25,
+          ),
+        ),
+      );
+    }
   }
 }

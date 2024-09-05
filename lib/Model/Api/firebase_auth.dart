@@ -13,13 +13,13 @@ class FirebaseAuthApi {
 
   Future<User?> signInWithEmail(String email, String password) async {
     try {
-      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+      UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email, password: password
       );
-      return userCredential.user;
+    return userCredential.user;
     } catch (e) {
-      throw Exception('ログインに失敗しました: $e');
+      print("Login failed: $e");
+      return null;
     }
   }
 

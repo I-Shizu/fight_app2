@@ -9,16 +9,18 @@ import 'package:table_calendar/table_calendar.dart';
 
 class PostController {
   final FirebaseStorageApi _storageApi = FirebaseStorageApi();
-  final FirestoreApi _postApi = FirestoreApi();
+  final FirestoreApi _firestoreApi = FirestoreApi();
   final FirebaseAuthApi _authApi = FirebaseAuthApi();
 
   Future<void> createPost(String text, File imageFile) async {
     try {
+      // ユーザーが認証されているか確認
       String? userId = _authApi.getCurrentUserId();
       if (userId == null) {
         throw Exception('ユーザーが認証されていません。再度ログインしてください。');
       }
-      
+
+      //画像をFirebase Storageにアップロード
       String imageUrl = await _storageApi.uploadUserImage(userId, imageFile);
       
       // 投稿データをFirestoreに保存
@@ -29,7 +31,7 @@ class PostController {
         date: Timestamp.now(),
         imageUrl: imageUrl,
       );
-      await _postApi.addPostToFirestore(post);
+      await _firestoreApi.addPostToFirestore(post);
     } catch (e) {
       throw Exception('投稿の作成に失敗しました: $e');
     }
@@ -38,7 +40,7 @@ class PostController {
   Future<List<Post>> getPostsForDay(DateTime day) async {
     try {
       // 日付(day)に投稿されたデータを取得
-      List<Post> posts = await _postApi.getPosts();
+      List<Post> posts = await _firestoreApi.getPosts();
       return posts.where((post) => isSameDay(post.date.toDate(), day)).toList();
     } catch (e) {
       throw Exception('投稿の取得に失敗しました: $e');
@@ -48,7 +50,7 @@ class PostController {
   Future<void> deletePost(String postId, String imageUrl) async {
     try {
       // Firestoreから投稿データを削除
-      await _postApi.deletePost(postId);
+      await _firestoreApi.deletePost(postId);
 
       // Firebase Storageから画像を削除
       await _storageApi.deleteImage(imageUrl);
