@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fight_app2/Model/Api/firebase_auth.dart';
-import 'package:fight_app2/Model/Api/firebase_firestore.dart';
-import 'package:fight_app2/Model/Api/firebase_storage.dart';
+import 'package:fight_app2/Model/Api/firebase_auth_api.dart';
+import 'package:fight_app2/Model/Api/firebase_firestore_api.dart';
+import 'package:fight_app2/Model/Api/firebase_storage_api.dart';
 import 'package:fight_app2/Model/post.dart';
 import 'package:table_calendar/table_calendar.dart';
 
@@ -38,17 +38,33 @@ class PostController {
   }
 
   Future<List<Post>> fetchPosts() async {
-    List<Post> posts = await _firestoreApi.getPosts();
-    return posts;
+    try {
+      // ユーザーが認証されているか確認
+      String? userId = _authApi.getCurrentUserId();
+      if (userId == null) {
+        throw Exception('ユーザーが認証されていません。再度ログインしてください。');
+      }
+
+      // Firestoreから投稿データを取得
+      return await _firestoreApi.getPosts(userId);
+    } catch (e) {
+      throw Exception('投稿の取得に失敗しました: $e');
+    }
   }
 
   Future<List<Post>> fetchPostsForDay(DateTime day) async {
     try {
+      // ユーザーが認証されているか確認
+      String? userId = _authApi.getCurrentUserId();
+      if (userId == null) {
+        throw Exception('ユーザーが認証されていません。再度ログインしてください。');
+      }
+
       // 日付(day)に投稿されたデータを取得
-      List<Post> posts = await _firestoreApi.getPosts();
+      List<Post> posts = await _firestoreApi.getPosts(userId);
       return posts.where((post) => isSameDay(post.date.toDate(), day)).toList();
     } catch (e) {
-      throw Exception('投稿の取得に失敗しました: $e');
+      throw Exception('指定日の投稿の取得に失敗しました: $e');
     }
   }
 

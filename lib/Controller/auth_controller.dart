@@ -1,4 +1,4 @@
-import 'package:fight_app2/Model/Api/firebase_auth.dart';
+import 'package:fight_app2/Model/Api/firebase_auth_api.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -16,8 +16,16 @@ class AuthController {
   }
 
   Future<void> checkAndLogin() async {
-    if (_currentUser == null) {
-    } else {
+    try {
+      User? user = _auth.currentUser;
+      if (user == null) {
+        print('ユーザーがサインインしていません。匿名でサインインします。');
+        await _auth.signInAnonymously();
+      } else {
+        print('ユーザーがサインインしています: ${user.email}');
+      }
+    } catch (e) {
+      print('認証エラー: $e');
     }
   }
  

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:fight_app2/Model/Api/firebase_storage.dart';
+import 'package:fight_app2/Model/Api/firebase_storage_api.dart';
 
 class StorageController {
   final FirebaseStorageApi _storageApi = FirebaseStorageApi();
