@@ -14,17 +14,17 @@ class _ListPageState extends State<ListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('リストページ'),
+        title: const Text('リストページ'),
       ),
       body: ElevatedButton(
         onPressed: () async {
           await FirebaseAuth.instance.signOut();
           Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => LoginPage()),
+            MaterialPageRoute(builder: (context) => const LoginPage()),
             (route) => false,
           );
         }, 
-        child: Text('ログアウト'),
+        child: const Text('ログアウト'),
       ),
     );
   }

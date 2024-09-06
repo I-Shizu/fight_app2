@@ -17,9 +17,7 @@ class AuthController {
 
   Future<void> checkAndLogin() async {
     if (_currentUser == null) {
-      print("ユーザーが認証されていません。ログインしてください。");
     } else {
-      print("ユーザーが認証されています。ユーザーID: ${_currentUser!.uid}");
     }
   }
  

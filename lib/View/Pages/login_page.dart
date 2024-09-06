@@ -34,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: const Text('Sign In with Google'),
               ),
             ),*/
-            Text(
+            const Text(
               'まだアカウントをお持ちでない方はこちら',
               style: TextStyle(
                 fontSize: 15,
@@ -71,8 +71,8 @@ class _LoginPageState extends State<LoginPage> {
               }, 
               child: const Text('新規登録'),
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'すでにアカウントをお持ちの方はこちら',
               style: TextStyle(
                 fontSize: 15,

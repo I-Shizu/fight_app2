@@ -18,7 +18,6 @@ class FirebaseAuthApi {
       );
     return userCredential.user;
     } catch (e) {
-      print("Login failed: $e");
       return null;
     }
   }

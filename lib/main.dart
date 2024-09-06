@@ -25,6 +25,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+   MyApp({super.key});
   final AuthController authController = AuthController();
 
   @override
@@ -40,11 +41,11 @@ class MyApp extends StatelessWidget {
         future: authController.checkAndLogin(),
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
+            return const CircularProgressIndicator();
           }else if(authController.isAuthentificated()){
-            return TopPage();
+            return const TopPage();
           }else {
-            return LoginPage();
+            return const LoginPage();
           }
         },
       ),

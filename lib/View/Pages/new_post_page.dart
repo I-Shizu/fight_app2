@@ -36,9 +36,9 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
-      final ImageFile = File(pickedFile.path);
+      final imageFile = File(pickedFile.path);
       setState(() {
-        _postImageUrl = ImageFile.path;
+        _postImageUrl = imageFile.path;
       });
 
       String? userId = _authController.getCurrentUserId();

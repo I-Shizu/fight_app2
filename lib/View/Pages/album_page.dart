@@ -42,11 +42,11 @@ class _AlbumPageState extends State<AlbumPage> with AutomaticKeepAliveClientMixi
         ? const Center(
             child: CircularProgressIndicator(),
           )
-        : PostsDisplayAndCheckPostsExist(),
+        : checkPostsExist(),
     );
   }
 
-  Widget PostsDisplayAndCheckPostsExist() {
+  Widget checkPostsExist() {
     if (posts.isEmpty) {
       return const Center(
         child: Text('まだ投稿はありません'),

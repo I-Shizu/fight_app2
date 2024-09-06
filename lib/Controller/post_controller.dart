@@ -37,7 +37,12 @@ class PostController {
     }
   }
 
-  Future<List<Post>> getPostsForDay(DateTime day) async {
+  Future<List<Post>> fetchPosts() async {
+    List<Post> posts = await _firestoreApi.getPosts();
+    return posts;
+  }
+
+  Future<List<Post>> fetchPostsForDay(DateTime day) async {
     try {
       // 日付(day)に投稿されたデータを取得
       List<Post> posts = await _firestoreApi.getPosts();
