@@ -4,15 +4,18 @@ import 'package:fight_app2/Model/post.dart';
 class FirestoreApi {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final String _collectionPath = 'posts';
+  final String _userIdPath = 'userId';
+  final String _datePath = 'date';
 
-  Future<List<Post>> getPosts() async {
-    final querySnapshot = await _firestore
+  Future<List<Post>> getPosts(String userId) async {
+    QuerySnapshot snapshot = await _firestore
         .collection(_collectionPath)
-        .orderBy('date', descending: true)
+        .where(_userIdPath, isEqualTo: userId)
+        .orderBy(_datePath, descending: true)
         .limit(10)
         .get();
 
-    return querySnapshot.docs.map((doc) => Post.fromFirestore(doc)).toList();
+    return snapshot.docs.map((doc) => Post.fromFirestore(doc)).toList();
   }
 
   Future<void> addPostToFirestore(Post post) async {
