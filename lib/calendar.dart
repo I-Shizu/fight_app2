@@ -52,7 +52,7 @@ class _CalendarState extends State<Calendar> {
           ),
           Expanded(
             child: FutureBuilder<List<Post>>(
-              future: _postController.getPostsForDay(_selectedDay ?? DateTime.now()),
+              future: _postController.fetchPostsForDay(_selectedDay ?? DateTime.now()),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
