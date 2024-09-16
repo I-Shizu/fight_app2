@@ -3,6 +3,7 @@ import 'package:fight_app2/Controller/auth_controller.dart';
 import 'package:fight_app2/View/Pages/login_page.dart';
 import 'package:fight_app2/View/Pages/top_page.dart';
 import 'package:firebase_app_check/firebase_app_check.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +28,7 @@ void main() async {
 class MyApp extends StatelessWidget {
    MyApp({super.key});
   final AuthController authController = AuthController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +39,8 @@ class MyApp extends StatelessWidget {
           Theme.of(context).textTheme,
         ),
       ),
-      home: FutureBuilder(
-        future: authController.checkAndLogin(),
+      home: StreamBuilder<User?>(
+        stream: _auth.authStateChanges(),
         builder: (context, snapshot) {
           if(snapshot.connectionState == ConnectionState.waiting) {
             return const CircularProgressIndicator();

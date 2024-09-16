@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fight_app2/Model/Api/firebase_auth_api.dart';
+import 'package:fight_app2/Controller/auth_controller.dart';
 import 'package:fight_app2/Model/Api/firebase_firestore_api.dart';
 import 'package:fight_app2/Model/Api/firebase_storage_api.dart';
 import 'package:fight_app2/Model/post.dart';
@@ -10,28 +10,28 @@ import 'package:table_calendar/table_calendar.dart';
 class PostController {
   final FirebaseStorageApi _storageApi = FirebaseStorageApi();
   final FirestoreApi _firestoreApi = FirestoreApi();
-  final FirebaseAuthApi _authApi = FirebaseAuthApi();
+  final AuthController _authController = AuthController();
 
   Future<void> createPost(String text, File imageFile) async {
-    try {
-      // ユーザーが認証されているか確認
-      String? userId = _authApi.getCurrentUserId();
-      if (userId == null) {
-        throw Exception('ユーザーが認証されていません。再度ログインしてください。');
-      }
+    await _authController.checkAndLogin();
 
-      //画像をFirebase Storageにアップロード
-      String imageUrl = await _storageApi.uploadUserImage(userId, imageFile);
+    String? userId = _authController.getCurrentUserId();
+    if (userId == null) {
+      return;
+    }
+
+    try {
+      //Firebase Storageにアップロードした画像をimageUrlに保存
+      String imageUrl = await _storageApi.uploadImageToStorage(userId, imageFile);
       
-      // 投稿データをFirestoreに保存
-      Post post = Post(
-        id: '',
-        userId: userId,
-        text: text,
-        date: Timestamp.now(),
-        imageUrl: imageUrl,
-      );
-      await _firestoreApi.addPostToFirestore(post);
+      // Firestoreに保存したPostをpostに保存
+      await FirebaseFirestore.instance.collection('posts').add({
+        'id': '',
+        'uid': userId,
+        'text': text,
+        'imageUrl': imageUrl,
+        'date': Timestamp.now(),
+      });
     } catch (e) {
       throw Exception('投稿の作成に失敗しました: $e');
     }
@@ -39,8 +39,7 @@ class PostController {
 
   Future<List<Post>> fetchPosts() async {
     try {
-      // ユーザーが認証されているか確認
-      String? userId = _authApi.getCurrentUserId();
+      String? userId = _authController.getCurrentUserId();
       if (userId == null) {
         throw Exception('ユーザーが認証されていません。再度ログインしてください。');
       }
@@ -54,8 +53,7 @@ class PostController {
 
   Future<List<Post>> fetchPostsForDay(DateTime day) async {
     try {
-      // ユーザーが認証されているか確認
-      String? userId = _authApi.getCurrentUserId();
+      String? userId = _authController.getCurrentUserId();
       if (userId == null) {
         throw Exception('ユーザーが認証されていません。再度ログインしてください。');
       }

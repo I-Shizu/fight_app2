@@ -1,23 +1,20 @@
 import 'dart:io';
 
+import 'package:fight_app2/Controller/auth_controller.dart';
 import 'package:fight_app2/Model/Api/firebase_storage_api.dart';
 
 class StorageController {
   final FirebaseStorageApi _storageApi = FirebaseStorageApi();
+  final AuthController _authController = AuthController();
 
   Future<String> uploadUserImage(String userId, File file) async {
-    try {
-      return await _storageApi.uploadUserImage(userId, file);
-    } catch (e) {
-      throw Exception('ファイルのアップロードに失敗しました: $e');
+    if(_authController.getCurrentUserId() == null) {
+      await _authController.checkAndLogin();
     }
+    return await _storageApi.uploadImageToStorage(userId, file);
   }
 
   Future<void> deleteImage(String imageUrl) async {
-    try {
-      await _storageApi.deleteImage(imageUrl);
-    } catch (e) {
-      throw Exception('画像の削除に失敗しました: $e');
-    }
+    await _storageApi.deleteImage(imageUrl);
   }
 }

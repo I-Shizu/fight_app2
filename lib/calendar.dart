@@ -62,10 +62,12 @@ class _CalendarState extends State<Calendar> {
                 }
 
                 final posts = snapshot.data!;
+
                 return ListView.builder(
                   itemCount: posts.length,
                   itemBuilder: (context, index) {
                     final post = posts[index];
+
                     return Card(
                       child: ListTile(
                         subtitle: Column(

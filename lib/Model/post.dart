@@ -30,6 +30,7 @@ class Post {
   // Firestoreにデータを保存するためのメソッド
   Map<String, dynamic> toFirestore() {
     return {
+      'id': id,
       'userId': userId,
       'text': text,
       'date': date,

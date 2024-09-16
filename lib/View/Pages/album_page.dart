@@ -22,16 +22,13 @@ class _AlbumPageState extends State<AlbumPage> with AutomaticKeepAliveClientMixi
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Album Page'),
+        title: const Text('Album'),
       ),
       body: FutureBuilder<List<Post>>(
         future: _postController.fetchPosts(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('エラーが発生しました: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return const Center(child: Text("まだ投稿はありません"));

@@ -6,8 +6,6 @@ class AuthController {
   final FirebaseAuthApi _authApi = FirebaseAuthApi();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  User? get _currentUser => _auth.currentUser;
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
 
@@ -15,18 +13,22 @@ class AuthController {
     return _auth.currentUser?.uid;
   }
 
-  Future<void> checkAndLogin() async {
-    try {
-      User? user = _auth.currentUser;
-      if (user == null) {
-        print('ユーザーがサインインしていません。匿名でサインインします。');
-        await _auth.signInAnonymously();
-      } else {
-        print('ユーザーがサインインしています: ${user.email}');
+  Future<User?> checkAndLogin() async {
+    if (_auth.currentUser == null) {
+      try {
+        // 認証されていない場合、ログインを試行
+        UserCredential credential = await _auth.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        return credential.user;
+      } catch (e) {
+        // エラーハンドリング (例: エラーメッセージの表示)
+        debugPrint('ログインに失敗しました: $e');
+        return null;
       }
-    } catch (e) {
-      print('認証エラー: $e');
     }
+    return _auth.currentUser;
   }
  
   Future<User?> registerUser(String email, String password) async {

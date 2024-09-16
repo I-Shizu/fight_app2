@@ -33,20 +33,25 @@ class _NewPostPageState extends State<NewPostPage> with AutomaticKeepAliveClient
   bool get wantKeepAlive => true;
 
   Future<void> _pickImage() async {
+    await _authController.checkAndLogin();
+
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       final imageFile = File(pickedFile.path);
       setState(() {
+        _imageFile = imageFile;
         _postImageUrl = imageFile.path;
       });
 
       String? userId = _authController.getCurrentUserId();
-      _storageController.uploadUserImage(userId!, _imageFile!).then((imageUrl) {
-        setState(() {
-          _postImageUrl = imageUrl;
+      if(userId != null) {
+        _storageController.uploadUserImage(userId, _imageFile!).then((imageUrl) {
+          setState(() {
+            _postImageUrl = imageUrl;
+          });
         });
-      });
+      }
     }
   }
 

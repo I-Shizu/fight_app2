@@ -1,18 +1,17 @@
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
+
 class FirebaseStorageApi {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
-  Future<String> uploadUserImage(String userId, File file) async {
-    try {
-      String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-      UploadTask uploadTask = _storage.ref('user_images/$userId/$fileName').putFile(file);
-      TaskSnapshot snapshot = await uploadTask;
-      return await snapshot.ref.getDownloadURL();
-    } catch (e) {
-      throw Exception('ファイルのアップロードに失敗しました: $e');
-    }
+  Future<String> uploadImageToStorage(String userId, File file) async {
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+    UploadTask uploadTask = _storage.ref('user_images/$userId/$fileName').putFile(file);
+    TaskSnapshot snapshot = await uploadTask;
+
+    String downloadUrl = await snapshot.ref.getDownloadURL();
+    return downloadUrl;
   }
 
   // ダウンロードURLを取得
